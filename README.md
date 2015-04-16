@@ -1,4 +1,0 @@
-sixpacktv
-=========
-
-Sixpack tv
