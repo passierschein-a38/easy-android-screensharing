@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>screener</title>
+<script type="text/javascript" src="Broadway/Player/YUVWebGLCanvas.js" ></script>
+<script type="text/javascript" src="Broadway/Player/Player.js" ></script>
+</head>
+<body>
+
+<script type="text/javascript">
+p = new Player({
+  useWorker: true,
+  workerFile: 'Broadway/Player/Decoder.js',  
+});
+
+p.canvas.id = "can";
+
+document.player = p;
+document.body.appendChild(p.canvas);
+
+var connection = new WebSocket('ws://78.47.15.190:5000');
+//var connection = new WebSocket('ws://localhost:5000');
+connection.binaryType = 'arraybuffer';
+
+connection.onopen = function () {
+  console.log( 'onopen' );
+};
+
+connection.onerror = function (error) {
+  console.log('WebSocket Error ' + error);
+};
+
+connection.onmessage = function (e) { 
+	var bytearray = new Uint8Array(e.data);
+    document.player.decode( bytearray );  
+};
+
+</script>
+
+</body>
+</html>
