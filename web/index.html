@@ -1,72 +1,100 @@
-<html>
-<head>
-<title>screener</title>
-<script type="text/javascript" src="Broadway/Player/YUVWebGLCanvas.js" ></script>
-<script type="text/javascript" src="Broadway/Player/Player.js" ></script>
-<style>
-#can{
-	width: 256px;
-	height: 400px;
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
 
-#page{
-	text-align: center ;
-	width: 99% ;
-}
-</style>
-</head>
-<body>
+    <title>Mobile Support</title>
 
-<div id="page">
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
 
-<a href="#" onclick="upScale(); return false;">upscale</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="#" onclick="downScale(); return false;">downScale</a>
-<br/>
-<script type="text/javascript">
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
 
-function upScale()
-{
-	var el = document.getElementById( "can" );
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<script type="text/javascript" src="Broadway/Player/YUVWebGLCanvas.js" ></script>
+	<script type="text/javascript" src="Broadway/Player/Player.js" ></script>
+  </head>
+    
+    <body>
+	<div id="page">
 	
-	document.eas_w *= 1.5;
-	document.eas_h *= 1.5;
-	
-	el.style.width = document.eas_w;
-	el.style.height = document.eas_h;	
-}
+		<div class="container">
+			
+			<div class="row">
+			
+				<div class="col-md-4">
+				</div>
+			
+				<div class="col-md-4">
+					<h3>Mobile Support</h3>				
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-4">					
+				</div>
 
-function downScale()
-{
-	var el = document.getElementById( "can" );
-	
-	document.eas_w /= 1.5;
-	document.eas_h /= 1.5;
-	
-	el.style.width = document.eas_w;
-	el.style.height = document.eas_h;
-}
+			<div class="col-md-4">
+			
+				<div id="player">
+				
+				</div>
+				
+				<div id="form">			
+					<form onsubmit="return false;">
+						<div class="form-group">
+							<label for="pinCode"></label>
+							<input type="text" class="form-control" id="pinCode" placeholder="Please Enter Pin Code">
+						</div>
+						<button type="submit" class="btn btn-default">Connect</button>
+					</form>
+				</div>
+			</div>
+			
+		</div>
+		        
+</div>
 
-p = new Player({
-  useWorker: true,
-  workerFile: 'Broadway/Player/Decoder.js',  
-});
+        
+<!-- ****************************************************************************************************************************************
+FOOTER
+********************************************************************************************************************************************* -->        
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!--BACKSTRETCH-->
+    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+    <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
+    <script>
+        $.backstretch("assets/img/bg01.jpg", {speed: 500});
+		$('#player').hide();
+		p = new Player({
+		useWorker: true,
+		workerFile: 'Broadway/Player/Decoder.js',  
+		});
 
-p.canvas.id = "can";
-p.canvas.style.width = "256";
-p.canvas.style.height = "400";
-
-document.eas_w = 256;
-document.eas_h = 400;
-
-document.player = p;
-var page = document.getElementById("page");
-page.appendChild(p.canvas);
-
-//var connection = new WebSocket('ws://78.47.15.190:5000');
-var connection = new WebSocket('ws://localhost:5000');
-connection.binaryType = 'arraybuffer';
-
+		document.player = p;
+		
+		var connection = new WebSocket('ws://localhost:5000');
+		connection.binaryType = 'arraybuffer';
+		
+		
 connection.onopen = function () {
   console.log( 'onopen' );
 };
@@ -76,12 +104,30 @@ connection.onerror = function (error) {
 };
 
 connection.onmessage = function (e) { 
-	var bytearray = new Uint8Array(e.data);
-    document.player.decode( bytearray );  
+
+	if( typeof e.data == 'object' ){
+		var bytearray = new Uint8Array(e.data);
+		document.player.decode( bytearray );  
+		return;
+	}else{
+		var cmd = JSON.parse( e.data );
+
+		console.log( cmd );
+			
+		switch( cmd.id ){
+			case 100:	//shower start
+				$('#player').append( document.player.canvas );
+				$('#player').show();
+				$('#form').hide();				
+				break;
+			case 200:	//shower start
+				$('#player').hide();				
+				$('#form').show();				
+				break;	
+		}
+		
+	}
 };
-
-</script>
-
-</div>
-</body>
+    </script>    
+  </body>
 </html>
