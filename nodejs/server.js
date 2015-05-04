@@ -3,6 +3,14 @@ var http = require('http');
 
 var configFrame = null;
 
+var start = new Object();
+start.id = 100; //shower start
+start = JSON.stringify( start );
+
+var close = new Object();
+close.id = 200; //shower start
+close = JSON.stringify( close );
+
 //sender server
 var server = http.createServer(function(request, response) {    
 });
@@ -14,6 +22,7 @@ wsServer = new WebSocketServer({
     httpServer: server,
 	maxReceivedFrameSize: 64*1024*1024,   // 64MiB
 	maxReceivedMessageSize: 64*1024*1024, // 64MiB
+	fragmentOutgoingMessages: true
 });
 
 // WebSocket server
@@ -22,6 +31,7 @@ wsServer.on('request', function(request) {
 	var connection = request.accept(null, request.origin);
 	
 	if( configFrame != null ){
+		connection.send( start );
 		connection.sendBytes( configFrame );		
 	}
 		
@@ -42,8 +52,9 @@ showerServer.listen(5001, function() { });
 // create the server
 wsShowerServer = new WebSocketServer({
     httpServer: showerServer,
-	maxReceivedFrameSize: 0x10000*2,
-	maxReceivedMessageSize: 0x100000*2,
+	maxReceivedFrameSize: 64*1024*1024,   // 64MiB
+	maxReceivedMessageSize: 64*1024*1024, // 64MiB
+	fragmentOutgoingMessages: true
 });
 
 wsShowerServer.on('request', function(request) {
@@ -53,7 +64,13 @@ wsShowerServer.on('request', function(request) {
 	connection.on('message', function(message) {
 			
 		if( configFrame == null ){
+		    console.log( 'start shower connection:');             
 			configFrame = message.binaryData;
+			
+			//inform clients - we are starting now
+			wsServer.connections.forEach(function (conn) {			   
+				conn.send( start );
+			})	
 		}
 	
 		wsServer.connections.forEach(function (conn) {					
@@ -64,5 +81,11 @@ wsShowerServer.on('request', function(request) {
     connection.on('close', function(connection) {
         console.log( 'close shower connection:');             
 		configFrame=null;			
+		
+		//inform clients - we are stopping now
+		wsServer.connections.forEach(function (conn) {			   
+			conn.send( close );
+		})	
+				
 		});		
     });

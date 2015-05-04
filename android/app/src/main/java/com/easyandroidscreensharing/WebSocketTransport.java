@@ -78,7 +78,7 @@ public class WebSocketTransport {
             //  connect();
             // }
         }catch( Exception e ){
-            Log.e( TAG, e.getMessage() );
+            Log.e( TAG, "exception thrown sendBiary" );
         }
     }
 }
