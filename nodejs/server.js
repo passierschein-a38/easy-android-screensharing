@@ -12,8 +12,8 @@ server.listen(5000, function() { });
 // create the server
 wsServer = new WebSocketServer({
     httpServer: server,
-	maxReceivedFrameSize: 0x10000*2,
-	maxReceivedMessageSize: 0x100000*2,
+	maxReceivedFrameSize: 64*1024*1024,   // 64MiB
+	maxReceivedMessageSize: 64*1024*1024, // 64MiB
 });
 
 // WebSocket server
