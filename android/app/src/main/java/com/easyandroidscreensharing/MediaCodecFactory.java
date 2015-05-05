@@ -23,8 +23,6 @@ public class MediaCodecFactory {
 	}
 
 	public MediaCodec createVideoEncoder() throws IOException {
-		// Encoded video resolution matches virtual display.
-		//MediaFormat encoderFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, mWidth, mHeight);
         MediaFormat encoderFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, mWidth, mHeight);
 		encoderFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
 		encoderFormat.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);

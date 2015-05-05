@@ -15,7 +15,7 @@ import java.nio.ByteBuffer;
 /**
  * Created by renard on 17/12/14.
  */
-public class EncoderAsyncTask extends AsyncTask<Void,VideoChunk,Void> {
+public class EncoderAsyncTask extends AsyncTask<Void,VideoChunk,Void>  {
 
 	private static final String LOG_TAG = EncoderAsyncTask.class.getSimpleName();
 	private final MediaCodecListener mListener;
@@ -34,7 +34,6 @@ public class EncoderAsyncTask extends AsyncTask<Void,VideoChunk,Void> {
 		mEncoder = 	factory.createVideoEncoder();
 		Surface surface = mEncoder.createInputSurface();
 		mEncoder.start();
-
 		mVirtualDisplay = projection.createVirtualDisplay(LOG_TAG, factory.getWidth(), factory.getHeight(), DisplayMetrics.DENSITY_MEDIUM, 0, surface, null, null);
 	}
 
@@ -62,18 +61,6 @@ public class EncoderAsyncTask extends AsyncTask<Void,VideoChunk,Void> {
 		}
 		Log.i(LOG_TAG, "got cancel signal");
 		mVirtualDisplay.release();
-
-//		//drain encoder of last frames
-//		boolean encoderDrained = false;
-//		while(!encoderDrained){
-//			int outputBufferIndex = mEncoder.dequeueOutputBuffer(info, TIMEOUT_USEC);
-//			if(outputBufferIndex!=MediaCodec.INFO_TRY_AGAIN_LATER){
-//				handleEncoderOutput(info, outputBufferIndex);
-//			} else {
-//				encoderDrained = true;
-//			}
-//		}
-
 		mEncoder.stop();
 		mEncoder.release();
 		return null;

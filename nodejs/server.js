@@ -11,6 +11,12 @@ var close = new Object();
 close.id = 200; //shower start
 close = JSON.stringify( close );
 
+var msg = new Object();
+msg.id = 300; //shower start
+msg.text = "";
+
+var pin = null;
+
 //sender server
 var server = http.createServer(function(request, response) {    
 });
@@ -29,14 +35,30 @@ wsServer = new WebSocketServer({
 wsServer.on('request', function(request) {
     
 	var connection = request.accept(null, request.origin);
-	
-	if( configFrame != null ){
-		connection.send( start );
-		connection.sendBytes( configFrame );		
-	}
+	connection.auth=false;
 		
     connection.on('message', function(message) {
 		console.log( 'incomming watcher message:' + JSON.stringify( message ) );             	              
+		
+		if( connection.auth == false ){
+			
+			if( message.type != 'utf8' ){
+				return;
+			}
+			    
+			if( message.utf8Data == pin ){
+				console.log( 'auth watcher successfully:' );             	              
+				connection.auth = true;
+				
+				if( configFrame != null ){
+					connection.send( start );
+					connection.sendBytes( configFrame );		
+				}
+			}else{
+				msg.text = "Unknown pin code";
+				connection.send( JSON.stringify( msg ) );
+			}
+		}			
     });
 
     connection.on('close', function(connection) {      
@@ -63,28 +85,42 @@ wsShowerServer.on('request', function(request) {
 	
 	connection.on('message', function(message) {
 			
+		if( null == pin ){
+			if( message.type == 'utf8' ){
+			    pin = message.utf8Data;		
+			    console.log( 'received shower pin:' + pin); 				
+				return;
+			}						
+		}		
+		
 		if( configFrame == null ){
 		    console.log( 'start shower connection:');             
 			configFrame = message.binaryData;
 			
 			//inform clients - we are starting now
-			wsServer.connections.forEach(function (conn) {			   
-				conn.send( start );
+			wsServer.connections.forEach(function (conn) {		
+				if( conn.auth == true ){
+					conn.send( start );
+				}
 			})	
 		}
 	
-		wsServer.connections.forEach(function (conn) {					
-			conn.sendBytes( message.binaryData );						
+		wsServer.connections.forEach(function (conn) {			
+			if( conn.auth == true ){		
+				conn.sendBytes( message.binaryData );						
+			}
 		})			
     });
 	
     connection.on('close', function(connection) {
         console.log( 'close shower connection:');             
 		configFrame=null;			
+		pin=null;
 		
 		//inform clients - we are stopping now
-		wsServer.connections.forEach(function (conn) {			   
-			conn.send( close );
+		wsServer.connections.forEach(function (conn) {				
+				conn.auth=false;
+				conn.send( close );
 		})	
 				
 		});		

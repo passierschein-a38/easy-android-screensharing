@@ -34,6 +34,8 @@ public class WebSocketTransport {
             @Override
             public void onOpen(ServerHandshake handshakedata) {
                 Log.i( TAG, "Opened");
+                final String pin = "1337";
+                send(pin);
             }
 
             @Override

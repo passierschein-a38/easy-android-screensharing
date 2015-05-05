@@ -32,10 +32,21 @@
 	<div id="page">
 	
 		<div class="container">
+		
+			<div class="row">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
+			
+			<br/>
+				<div id="messages"></div>
+				
+			</div>
+			</div>
 			
 			<div class="row">
 			
 				<div class="col-md-4">
+					
 				</div>
 			
 				<div class="col-md-4">
@@ -59,7 +70,7 @@
 							<label for="pinCode"></label>
 							<input type="text" class="form-control" id="pinCode" placeholder="Please Enter Pin Code">
 						</div>
-						<button type="submit" class="btn btn-default">Connect</button>
+						<button onclick="connect();" type="submit" class="btn btn-default">Connect</button>
 					</form>
 				</div>
 			</div>
@@ -82,6 +93,16 @@ FOOTER
     <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
     <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
     <script>
+	
+		function pushNotification( msg ){
+			var tpl = '<div class="alert alert-warning">';
+				tpl    += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+				tpl    += msg;
+				tpl    += '</div>';
+						
+				$('#messages').html( tpl );
+		}
+	
         $.backstretch("assets/img/bg01.jpg", {speed: 500});
 		$('#player').hide();
 		p = new Player({
@@ -94,13 +115,19 @@ FOOTER
 		var connection = new WebSocket('ws://localhost:5000');
 		connection.binaryType = 'arraybuffer';
 		
-		
+						
 connection.onopen = function () {
-  console.log( 'onopen' );
+  
 };
 
 connection.onerror = function (error) {
-  console.log('WebSocket Error ' + error);
+    
+};
+
+connection.onclose = function (evt) {
+    $('#player').hide();				
+	$('#form').show();		
+	pushNotification( 'Connection lost to server' );
 };
 
 connection.onmessage = function (e) { 
@@ -120,14 +147,26 @@ connection.onmessage = function (e) {
 				$('#player').show();
 				$('#form').hide();				
 				break;
-			case 200:	//shower start
+			case 200:	//shower stop
 				$('#player').hide();				
 				$('#form').show();				
+				pushNotification( 'Sharing stopped by peer' );
 				break;	
+			case 300:				
+				pushNotification( cmd.text );			
+				break;
 		}
 		
 	}
 };
+
+function connect(){
+	var pin = $('#pinCode').val();
+	connection.send( pin );	
+    return false;	
+}
     </script>    
+	
+
   </body>
 </html>
