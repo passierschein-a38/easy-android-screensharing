@@ -1,6 +1,6 @@
 function pushNotification( text )
 {
-  // Let's check if the browser supports notifications
+  /*// Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");
   }
@@ -22,7 +22,7 @@ function pushNotification( text )
   }
 
   // At last, if the user already denied any notification, and you 
-  // want to be respectful there is no need to bother them any more.
+  // want to be respectful there is no need to bother them any more.*/
 }
 
 function initPlayer(){
