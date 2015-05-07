@@ -45,8 +45,13 @@ public class EncoderAsyncTask extends AsyncTask<Void,VideoChunk,Void>  {
 
 		final int TIMEOUT_USEC = 10000;
 		MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();
+        int outputBufferIndex;
 		while(!isCancelled()){
-			int outputBufferIndex = mEncoder.dequeueOutputBuffer(info, TIMEOUT_USEC);
+            try {
+                outputBufferIndex = mEncoder.dequeueOutputBuffer(info, TIMEOUT_USEC);
+            }catch(Exception e){
+                continue;
+            }
 			if (outputBufferIndex >= 0) {
 				ByteBuffer outputBuffer = mEncoder.getOutputBuffer(outputBufferIndex);
 				if (info.size != 0) {

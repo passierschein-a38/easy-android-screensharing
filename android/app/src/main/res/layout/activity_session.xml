@@ -60,15 +60,14 @@ tools:context=".Session">
         android:gravity="center"/>
 
     <ProgressBar
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="200dp"
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
         android:indeterminate="true"
         android:indeterminateDrawable="@drawable/custom_loading"
         />
