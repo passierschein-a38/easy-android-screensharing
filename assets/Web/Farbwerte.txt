@@ -1,0 +1,5 @@
+Seiten-Hintergrundfarbe für Nummerneingabe: Weiß
+Seiten-Hintergrundfarbe für SessionInProgress: #DDE0E1
+
+Schriftart für "Join your ...": Citrix Sans Light 37px, white
+Buttonfarbe für "Join Session": #1D9798

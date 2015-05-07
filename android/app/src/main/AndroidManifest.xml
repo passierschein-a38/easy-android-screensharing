@@ -2,26 +2,47 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.easyandroidscreensharing" >
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        android:hardwareAccelerated="true"
+        android:name=".TrueCastApp"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:hardwareAccelerated="true"
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".Wait"
+            android:label="@string/title_activity_wait" >
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".Session"
+            android:label="@string/title_activity_session" >
+        </activity>
+        <activity
+            android:name=".Restart"
+             >
         </activity>
     </application>
 

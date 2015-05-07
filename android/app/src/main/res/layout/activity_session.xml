@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@android:color/white"
+tools:context=".Session">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minHeight="40dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:background="@drawable/background"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/text_insession"
+        android:id="@+id/textViewSession"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textSize="20dp"
+        android:textColor="#ff55a6b4"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/text_leave"
+        android:id="@+id/key2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#ff55a6b4"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_marginTop="30dp"
+        android:layout_width="305dp"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_session_btn"
+        android:minHeight="60dp"
+        android:textSize="18dp"
+        android:id="@+id/stopbutton"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal"
+        android:background="#ff55a7b2"
+        android:gravity="center"/>
+
+    <ProgressBar
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/custom_loading"
+        />
+
+</LinearLayout>
+
+</RelativeLayout>

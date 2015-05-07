@@ -1,172 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/ico/favicon.ico">
-
-    <title>Mobile Support</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="assets/css/style.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-	<script type="text/javascript" src="Broadway/Player/YUVWebGLCanvas.js" ></script>
-	<script type="text/javascript" src="Broadway/Player/Player.js" ></script>
-  </head>
-    
-    <body>
-	<div id="page">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TrueCast</title>
+<link href="truecast.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Broadway/Player/YUVWebGLCanvas.js" ></script>
+<script type="text/javascript" src="Broadway/Player/Player.js" ></script>
+<script type="text/javascript" src="truecast.js" ></script>
+</head>
+<body 
+    style="background-image: url( images/SessionNumberPageBackground.png);
+	background-repeat:no-repeat;
+    background-position: center top;
+    background-size: 100% 353px;">
 	
-		<div class="container">
-		
-			<div class="row">
-			<div class="col-md-4"></div>
-			<div class="col-md-4">
-			
-			<br/>
-				<div id="messages"></div>
-				
-			</div>
-			</div>
-			
-			<div class="row">
-			
-				<div class="col-md-4">
-					
-				</div>
-			
-				<div class="col-md-4">
-					<h3>Mobile Support</h3>				
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-md-4">					
-				</div>
-
-			<div class="col-md-4">
-			
-				<div id="player">
-				
-				</div>
-				
-				<div id="form">			
-					<form onsubmit="return false;">
-						<div class="form-group">
-							<label for="pinCode"></label>
-							<input type="text" class="form-control" id="pinCode" placeholder="Please Enter Pin Code">
-						</div>
-						<button onclick="connect();" type="submit" class="btn btn-default">Connect</button>
-					</form>
-				</div>
-			</div>
-			
-		</div>
-		        
+<div class="headerlogo" > 
+	<img src="images/logoHeaderBar.png" />
 </div>
 
-        
-<!-- ****************************************************************************************************************************************
-FOOTER
-********************************************************************************************************************************************* -->        
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    
-    <!--BACKSTRETCH-->
-    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
-    <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
-    <script>
-	
-		function pushNotification( msg ){
-			var tpl = '<div class="alert alert-warning">';
-				tpl    += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-				tpl    += msg;
-				tpl    += '</div>';
-						
-				$('#messages').html( tpl );
-		}
-	
-        $.backstretch("assets/img/bg01.jpg", {speed: 500});
-		$('#player').hide();
-		p = new Player({
-		useWorker: true,
-		workerFile: 'Broadway/Player/Decoder.js',  
-		});
 
-		document.player = p;
-		
-		var connection = new WebSocket('ws://localhost:5000');
-		connection.binaryType = 'arraybuffer';
-		
-						
-connection.onopen = function () {
-  
-};
+<div id="pinView">
 
-connection.onerror = function (error) {
-    
-};
+<div class="logo" align="center"> 
+	<img src="images/logoSessionNumberPage.png" />
+</div>
 
-connection.onclose = function (evt) {
-    $('#player').hide();				
-	$('#form').show();		
-	pushNotification( 'Connection lost to server' );
-};
+<div class="headline" align="center"> Join a Session</div>
+	<div align="center" style="padding-top:50px;">
+	<input id="pinCode" name="pinCode" type="text" class="numberInput" value="" placeholder="Pincode" size="40" maxlength="11"  />
+</div>
 
-connection.onmessage = function (e) { 
+<div align="center" style="padding-top:10px;"><a href="#"><div class="button" onclick="connect(); return false;">Join</div></a></div>
 
-	if( typeof e.data == 'object' ){
-		var bytearray = new Uint8Array(e.data);
-		document.player.decode( bytearray );  
-		return;
-	}else{
-		var cmd = JSON.parse( e.data );
+</div>
 
-		console.log( cmd );
-			
-		switch( cmd.id ){
-			case 100:	//shower start
-				$('#player').append( document.player.canvas );
-				$('#player').show();
-				$('#form').hide();				
-				break;
-			case 200:	//shower stop
-				$('#player').hide();				
-				$('#form').show();				
-				pushNotification( 'Sharing stopped by peer' );
-				break;	
-			case 300:				
-				pushNotification( cmd.text );			
-				break;
-		}
-		
-	}
-};
+<div style="display:none;" id="playerView">
 
-function connect(){
-	var pin = $('#pinCode').val();
-	connection.send( pin );	
-    return false;	
-}
-    </script>    
-	
+<div class="viewport-position" align="center"><div class="viewport"> <div id="player"></div> </div></div>
 
-  </body>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+$( document ).ready(function() {
+   initSockets();
+   initPlayer();  
+});
+</script>
+</body>
 </html>

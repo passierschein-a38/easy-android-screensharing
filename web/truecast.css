@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+
+	::-webkit-input-placeholder {
+		font-family: "Citrix Sans Light";
+color: #999;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+font-family: "Citrix Sans Light";
+color: #999;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+font-family: "Citrix Sans Light";
+color: #999;
+}
+
+:-ms-input-placeholder {  
+font-family: "Citrix Sans Light";
+ color: #999;
+}
+
+/* unvisited link */
+a:link {
+      text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+      text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+    text-decoration: none;
+}
+
+/* selected link */
+a:active {
+       text-decoration: none;
+}
+
+body {
+    margin:0px;
+
+}
+
+
+.logo {padding-top: 60px;}
+.headerlogo{padding-top: 11px;padding-left: 13px;}
+
+.headline{font-family: "Citrix Sans Light"; color: white; font-size: 37px; padding-top: 20px; }
+
+
+.numberInput{font-family: "Citrix Sans SemiBold"; color: black; font-size: 20px; padding: 7px; text-align:center; border:none}
+
+.button {background-color: #1D9798; width: 500px; padding-top: 8px; padding-bottom: 8px;font-family: "Citrix Sans Light"; color: white; font-size: 20px;}
+
+.viewport-position {padding-top:40px;}
+
+.viewport {background-color: white; width: 424px; height: 660px; padding-top:20px; padding-left:0px; box-shadow: 0px 0px 20px  #000000; }

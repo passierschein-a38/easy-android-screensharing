@@ -1,23 +1,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:weightSum="1">
+        android:minHeight="40dp">
 
-        <ImageButton
-            android:layout_width="match_parent"
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:background="@drawable/background"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButtonShow"
-            android:layout_weight="0.59"
-            android:src="@android:drawable/ic_menu_share" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/intro_text"
+            android:id="@+id/textView"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textSize="20dp"
+            android:textColor="#ff55a6b4"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/session_text"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:textSize="20dp"
+            android:textColor="#ff55a6b4"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_marginTop="30dp"
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:text="@string/start_session_btn"
+            android:minHeight="60dp"
+            android:textSize="18dp"
+            android:id="@+id/button"
+            android:textColor="#ffffff"
+            android:layout_gravity="center_horizontal"
+            android:background="#ff55a7b2"
+            android:gravity="center"/>
+
+
     </LinearLayout>
+
 </RelativeLayout>

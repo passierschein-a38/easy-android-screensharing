@@ -50,6 +50,12 @@ wsServer.on('request', function(request) {
 				console.log( 'auth watcher successfully:' );             	              
 				connection.auth = true;
 				
+				//inform shower
+				
+				wsShowerServer.connections.forEach(function (conn) {								
+					conn.send( "watcher" );						
+				});			
+				
 				if( configFrame != null ){
 					connection.send( start );
 					connection.sendBytes( configFrame );		

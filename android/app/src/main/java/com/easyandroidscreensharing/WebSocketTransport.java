@@ -1,5 +1,7 @@
 package com.easyandroidscreensharing;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import org.java_websocket.client.WebSocketClient;
@@ -41,6 +43,13 @@ public class WebSocketTransport {
             @Override
             public void onMessage(String message) {
                 Log.i( TAG, message);
+
+                final String wt = "watcher";
+
+                if( message.equals(wt)){
+                    Intent i = new Intent(TrueCastApp.getCurrentActivity(), Session.class);
+                    TrueCastApp.getCurrentActivity().startActivity(i);
+                }
             }
 
             @Override

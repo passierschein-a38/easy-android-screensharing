@@ -14,7 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends Activity implements EncoderAsyncTask.MediaCodecListener{
@@ -33,12 +37,17 @@ public class MainActivity extends Activity implements EncoderAsyncTask.MediaCode
     private int height = 0;
     private int width = 0;
 
-  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TrueCastApp.setCurrentActivity(this);
+
+        if (getIntent().getBooleanExtra("stop", false)) {
+            Restart.doRestart(this);
+            return;
+        }
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
@@ -48,7 +57,8 @@ public class MainActivity extends Activity implements EncoderAsyncTask.MediaCode
 
         mMediaCodecFactory = new MediaCodecFactory(width, height);
 
-        ImageButton show = (ImageButton)findViewById(R.id.imageButtonShow);
+
+        Button show = (Button)findViewById(R.id.button);
         show.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,11 +80,16 @@ public class MainActivity extends Activity implements EncoderAsyncTask.MediaCode
                 mEncoderAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 mSenderAsyncTask = new SenderAsyncTask(SOCKET_SERVER_IP);
                 mSenderAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                Intent i = new Intent( this, Wait.class);
+                startActivity(i);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
