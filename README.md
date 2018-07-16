@@ -2,7 +2,7 @@
 Easy Android Screensharing
 
 This is a prototype of a an screensharing application using h264 on an android mobile with an nodejs backend and an pure html5 javascript client.
-Note this code is just a prototype and not production ready, it was written in 2015 and never put on the market. 
+Note this code is just a prototype and not production ready, it was written in 2015 and never put on the market. All the android credits goes to renard: https://github.com/renard314/
 
 android: the android app
 
