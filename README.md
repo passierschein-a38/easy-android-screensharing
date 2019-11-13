@@ -10,3 +10,6 @@ nodejs: backend to broadcasting the stream received from the mobile
 
 web: the html5 client 
 
+demo video: This video is using a real world internet connection and is not running in local network, all data are streamed tru a server based in frankfurt.
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/PSiK7QkbrUU/0.jpg)](https://www.youtube.com/watch?v=PSiK7QkbrUU)
